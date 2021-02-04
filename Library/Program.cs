@@ -17,8 +17,9 @@ namespace Library
 
             MainForm mainForm = new MainForm();
             MainBL mainBL = new MainBL();
+            MessageService messageService = new MessageService();
 
-            Controller controller = new Controller(mainBL, mainForm);
+            Controller controller = new Controller(mainBL, mainForm, messageService);
 
             Application.Run(mainForm);
         }

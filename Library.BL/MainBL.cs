@@ -15,16 +15,16 @@ namespace Library.BL
     public class MainBL : IMainBL
     {
         LibraryContext libraryContext;
-        IQueryable<Book> books;
+        IQueryable<Book> Books;
         public MainBL()
         {
             libraryContext = new LibraryContext();
-            books = libraryContext.Books.AsNoTracking();
+            Books = libraryContext.Books.AsNoTracking();
         }
 
         public List<Book> LoadBd()
         {
-            return books.ToList();
+            return Books.ToList();
         }
 
         public void AddBook(Book book)

@@ -12,15 +12,14 @@ namespace Library
     {
         readonly IMainBL mainBL;
         readonly IMainForm mainForm;
-        readonly IAddBookForm addBookForm;
+        readonly IMessageService messageService;
+        private IAddBookForm addBookForm;
 
-        public Controller(IMainBL mainBL, IMainForm mainForm)
+        public Controller(IMainBL mainBL, IMainForm mainForm, IMessageService messageService)
         {
-            addBookForm = new AddBookForm();
-            addBookForm.closing += AddBookForm_closing;
-
             this.mainBL = mainBL;
             this.mainForm = mainForm;
+            this.messageService = messageService;
 
             mainForm.LoadBD += MainForm_LoadBD;
             mainForm.Add += MainForm_Add;
@@ -28,12 +27,19 @@ namespace Library
 
         private void MainForm_Add(object sender, EventArgs e)
         {
+            addBookForm = new AddBookForm();
+            addBookForm.SaveData += AddBookForm_SaveData;
             addBookForm.Show();
         }
 
-        private void AddBookForm_closing(object sender, EventArgs e)
+        private void AddBookForm_SaveData(object sender, EventArgs e)
         {
             Book book = new Book();
+            if(book.Title == null)
+            {
+                messageService.ShowExclamation("Title should not be equal to null");
+                return;
+            }
             book.Title = addBookForm.Title;
             book.Author = addBookForm.Author;
             book.ISBN = addBookForm.ISBN;

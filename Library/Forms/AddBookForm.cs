@@ -19,19 +19,13 @@ namespace Library
         decimal Price { get; set; }
         int Amount { get; set; }
 
-        event EventHandler closing;
+        event EventHandler SaveData;
     }
     public partial class AddBookForm : Form, IAddBookForm
     {
         public AddBookForm()
         {
             InitializeComponent();
-            FormClosing += AddBookForm_FormClosing;
-        }
-
-        private void AddBookForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (closing != null) closing(this, EventArgs.Empty);
         }
 
         public string Title { get { return TitleTextBox.Text; } set { Title = value; } }
@@ -41,10 +35,11 @@ namespace Library
         public int Amount { get { return Convert.ToInt32(AmountUpDown.Value); } set { Amount = value; } }
  
 
-        public event EventHandler closing;
+        public event EventHandler SaveData;
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (SaveData != null) SaveData(this, EventArgs.Empty);
             Close();
         }
     }
